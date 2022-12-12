@@ -1,7 +1,8 @@
-# skills
+# https://emojipedia.org
 # https://gist.github.com/rxaviers/7360908
 Repository with projects especially focused on Computer Science and Natural Sciences.
 
+![Alt text](clean_architecture.jpg)
 # 🐍 SCAFFOLDING FOR CLEAN ARCHITECTURE IN MICROSERVICES
 
 ```
@@ -30,7 +31,7 @@ Repository with projects especially focused on Computer Science and Natural Scie
 ```
 📦jorge_cardona_project [project_directory]
 ┗ 📂application [package]
-┃ ┣ main.py [__main__]
+┃ ┣ 🎄 main.py [__main__]
 ┃ ┣ 📂configuration
 ┃ ┣ ┗ 🏩 app_configuration.py
 ┃ ┣ 📂log
@@ -125,6 +126,9 @@ is a package that contains modules, the module is a class that implements the me
 
 # Services
 is a package that contains modules, the module is a class that contains the API services by functionality or by class and use the UseCases classes.
+
+# Web, Devices, DB, UI, External Interfaces
+layer that communicates internal API services with API consumers.
 
 # Deployment
 Directory that contains the Dockerfile, k8s Manifest, and every file needed for the deployment.
