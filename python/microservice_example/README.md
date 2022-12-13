@@ -138,3 +138,7 @@ Directory containing the requirements.txt with the definition of project depende
 
 # Test
 Directory that contains the unit testing from the Use Cases and Services files.
+
+# Run application
+uvicorn python.microservice_example.application.main:clean_architecture --host localhost --reload --port 5555
+# http://localhost:5555/docs
