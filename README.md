@@ -82,6 +82,7 @@ Ensure that your `package.json` file has the following structure at the beginnin
 - **name**: Defines the name of your project.
 - **version**: Specifies the current version of your application.
 - **private**: When set to `true`, it prevents the package from being accidentally published to the npm registry.
+- **homepage**: Sets the homepage URL for your application, necessary for deployment on GitHub Pages.
 - **dependencies**: Lists the dependencies necessary for your application to function.
 - **scripts**: Defines custom commands for common tasks, such as starting, building, and deploying your application.
   - **start**: Starts the development server.
@@ -89,8 +90,10 @@ Ensure that your `package.json` file has the following structure at the beginnin
   - **test**: Runs tests on the application.
   - **eject**: Exposes the configuration of the project (useful if you need to customize the setup).
   - **predeploy**: Compiles the application before deploying it.
-  - **set-homepage**: Dynamically sets the homepage URL in `package.json` using the environment variable.
   - **deploy**: Runs commands to set the homepage and deploys the application to GitHub Pages.
+- **eslintConfig**: Configuration for ESLint, ensuring that the recommended style for React applications is followed.
+- **browserslist**: Defines which browsers should be supported in production and development.
+- **devDependencies**: Includes development dependencies such as `gh-pages`, which is used for deployment.
 
 ## 5. Configure GitHub Pages Deployment with Push to Main
 ```bash
