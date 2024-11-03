@@ -3,7 +3,7 @@ import React from 'react';
 function Home() {
   return (
     <div>
-      <h1>Welcome to the Portfolio Platform</h1>
+      <h1>Welcome to the Portfolio from Jorge Cardona</h1>
       <p>Please select an item from the menu to view the portfolio.</p>
 
       <h2>About This Platform</h2>
