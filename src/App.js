@@ -1,7 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-// Import HashRouter (as Router) to handle routing with # in the URL, Routes to group paths, Route to define each path, and Link for in-app navigation.
 import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './components/Home';
 import SQL from './components/SQL';
@@ -15,14 +14,26 @@ function App() {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1>Welcome to the Portfolio of Jorge Cardona</h1>
-          <a
-            className="App-link"
-            href="https://github.com/JorgeCardona?tab=repositories"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Explore My GitHub Portfolio
-          </a>
+          <div className="social-links">
+            <a href="https://www.linkedin.com/in/jorgecardona1" target="_blank" rel="noopener noreferrer">
+              <img src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg" width="80" height="80" alt="LinkedIn" />
+            </a>
+            <a href="https://www.youtube.com/jorgeCardona1" target="_blank" rel="noopener noreferrer">
+              <img src="https://i1.wp.com/www.siempreviajero.com/wp-content/uploads/2017/03/logo-youtube-png.png" width="80" height="80" alt="YouTube" />
+            </a>
+            <a href="https://www.hackerrank.com/jorgecardona" target="_blank" rel="noopener noreferrer">
+              <img src="https://d29fhpw069ctt2.cloudfront.net/icon/image/38712/preview.svg" width="80" height="80" alt="HackerRank" />
+            </a>
+            <a href="https://hub.docker.com/u/jorgecardona" target="_blank" rel="noopener noreferrer">
+              <img src="https://raw.githubusercontent.com/docker-library/docs/c350af05d3fac7b5c3f6327ac82fe4d990d8729c/docker/logo.png" width="80" height="80" alt="Docker Hub" />
+            </a>
+            <a href="https://pypi.org/user/jorgecardona/" target="_blank" rel="noopener noreferrer">
+              <img src="https://raw.githubusercontent.com/JorgeCardona/PipPackageInstaller/main/imagenes/PyPI.png" width="80" height="80" alt="PyPI" />
+            </a>
+            <a href="https://github.com/JorgeCardona" target="_blank" rel="noopener noreferrer">
+              <img src="https://raw.githubusercontent.com/JorgeCardona/PipPackageInstaller/refs/heads/main/imagenes/github.svg" width="80" height="80" alt="GitHub" />
+            </a>
+          </div>
         </header>
 
         <nav className="navbar">
