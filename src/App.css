@@ -1,38 +1,90 @@
+/* App.css */
+
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+  min-height: 100vh;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  background-color: #343a40;
+  padding: 20px;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.App-logo {
+  height: 80px;
+  pointer-events: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h1 {
+  margin: 20px 0;
+}
+
+.navbar {
+  background-color: #007bff;
+  padding: 10px;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+}
+
+.nav-list li {
+  display: inline;
+  margin: 0 15px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+.content {
+  padding: 20px;
+}
+
+.content h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.content p {
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* New rule to remove bullets from unordered lists */
+ul {
+  list-style-type: none; /* Remove bullets from all unordered lists */
+  padding: 0; /* Remove default padding */
+}
+
+
+.App-link {
+  color: #61dafb; /* Original color */
+  text-decoration: none; /* Remove underline */
+}
+
+.App-link:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+/* Change color when the link is visited */
+.App-link:visited {
+  color: yellow; /* Change this to green if you prefer */
+}
+
+/* Optional: Add a class for active links */
+.App-link.active {
+  color: red; /* This will be used when a link is clicked */
 }
