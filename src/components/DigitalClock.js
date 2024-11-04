@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactCountryFlag from 'react-country-flag';
 
 function DigitalClock() {
     const [timeUTC, setTimeUTC] = useState(new Date(Date.now())); // Start with current UTC time
@@ -15,13 +16,25 @@ function DigitalClock() {
         return () => clearInterval(intervalId); // Clear the interval on unmount
     }, []);
 
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
-    const formattedDateUTC = timeUTC.toUTCString('en-US', options).replace(' GMT', ' UTC'); // Full UTC date and time without "GMT"
-    const formattedDateUTC5 = timeUTC5.toUTCString('en-US', options).replace(' GMT', ' UTC-5'); // Full UTC-5 date and time without "GMT"
+    const formattedDateUTC = timeUTC.toUTCString().replace(' GMT', ' UTC'); // Full UTC date and time without "GMT"
+    const formattedDateUTC5 = timeUTC5.toUTCString().replace(' GMT', ' UTC-5'); // Full UTC-5 date and time without "GMT"
 
     return (
         <div style={{ fontSize: '2em', color: 'white', margin: '20px' }}>
-            <div>{formattedDateUTC5} - {formattedDateUTC}</div>
+            <div>
+                <ReactCountryFlag 
+                    countryCode="CO" 
+                    svg 
+                    style={{ width: '2em', height: '2em', marginRight: '10px' }} // Added margin for spacing
+                />
+                {formattedDateUTC5} - 
+                <ReactCountryFlag 
+                    countryCode="GB" 
+                    svg 
+                    style={{ width: '2em', height: '2em', marginLeft: '10px', marginRight: '10px' }} // Added margin for spacing
+                />
+                {formattedDateUTC}
+            </div>
         </div>
     );
 }
