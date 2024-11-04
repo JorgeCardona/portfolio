@@ -74,7 +74,7 @@ function App() {
 function MathSection() {
   const [a, setA] = useState('');
   const [b, setB] = useState('');
-  const [operation, setOperation] = useState('add');
+  const [operation, setOperation] = useState('random');
   const [result, setResult] = useState(null);
 
   const calculateResult = useCallback(() => {
@@ -83,7 +83,10 @@ function MathSection() {
       const numB = b === '' ? 0 : Number(b);
 
       switch (operation) {
-          case 'add':
+        case 'random':
+          res = MathOperations.randomInteger(numA);
+          break;
+        case 'add':
               res = MathOperations.add(numA, numB);
               break;
           case 'subtract':
@@ -149,6 +152,7 @@ function MathSection() {
   };
 
   const singleValueOperations = [
+      'random',
       'square',
       'cube',
       'factorial',
@@ -166,6 +170,7 @@ function MathSection() {
               <label style={{ fontSize: '1.2em', marginRight: '1em' }}>
                   Operation:
                   <select value={operation} onChange={(e) => setOperation(e.target.value)} style={{ fontSize: '1.2em' }}>
+                      <option value="random">Random Number</option>
                       <option value="add">Addition</option>
                       <option value="subtract">Subtraction</option>
                       <option value="multiply">Multiplication</option>
@@ -215,7 +220,5 @@ function MathSection() {
       </div>
   );
 }
-
-
 
 export default App;

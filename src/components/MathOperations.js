@@ -24,6 +24,14 @@ export default class MathOperations {
         return (a * b) / 100;
     }
 
+    // New method to generate a random integer between two values
+    static randomInteger(max) {
+        if (max < 0) {
+            throw new Error("Max should be greater than or equal to 0.");
+        }
+        return Math.floor(Math.random() * (max + 1));
+    }
+
     // New methods for square root, cube root, power, and n-th root
     static squareRoot(a) {
         if (a < 0) {
