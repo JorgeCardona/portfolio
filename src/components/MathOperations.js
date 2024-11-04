@@ -27,7 +27,10 @@ export default class MathOperations {
     // New method to generate a random integer between two values
     static randomInteger(max) {
         const absoluteMax = Math.abs(max); // Take the absolute value of max
-        return Math.floor(Math.random() * (absoluteMax + 1)); // Generate random integer between 0 and absoluteMax
+        if (absoluteMax === 0) {
+            return 0;
+        }
+        return Math.floor(Math.random() * absoluteMax) + 1; // Generate random integer between 1 and absoluteMax
     }
 
     // New methods for square root, cube root, power, and n-th root
