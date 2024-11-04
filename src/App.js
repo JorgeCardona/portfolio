@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './components/Home';
 import SQL from './components/SQL';
@@ -57,7 +57,7 @@ function MathSection() {
   const [operation, setOperation] = useState('add');
   const [result, setResult] = useState(null);
 
-  const calculateResult = () => {
+  const calculateResult = useCallback(() => {
     let res;
     const numA = a === '' ? 0 : Number(a);
     const numB = b === '' ? 0 : Number(b);
@@ -114,18 +114,17 @@ function MathSection() {
     } else {
       setResult(res);
     }
-  };
+  }, [a, b, operation]); // dependencies for useCallback
 
   useEffect(() => {
     calculateResult();
-  }, [operation]);
+  }, [calculateResult]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     calculateResult();
   };
 
-  // Operations that only need one input value
   const singleValueOperations = [
     'square',
     'cube',
@@ -136,7 +135,7 @@ function MathSection() {
     'logBase2',
     'logBase10',
   ];
-  
+
   return (
     <div>
       <h2>Mathematical Operations</h2>
@@ -168,7 +167,6 @@ function MathSection() {
             onChange={(e) => setA(e.target.value)}
           />
         </label>
-        {/* Only show Final Value if the operation requires two inputs */}
         {!singleValueOperations.includes(operation) && (
           <label style={{ marginRight: '1em' }}>
             Final Value:
