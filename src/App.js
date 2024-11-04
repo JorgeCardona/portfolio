@@ -7,6 +7,7 @@ import SQL from './components/SQL';
 import SPARK from './components/SPARK';
 import MongoDB from './components/MongoDB';
 import MathOperations, { square, cube, power, factorial, logarithm } from './components/MathOperations';
+import DigitalClock from './components/DigitalClock'; // Asegúrate de que la ruta sea correcta
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1>Welcome to the Portfolio of Jorge Cardona</h1>
+          <DigitalClock />
           <div className="social-links">
             <a href="https://www.linkedin.com/in/jorgecardona1" target="_blank" rel="noopener noreferrer">
               <img src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg" width="80" height="80" alt="LinkedIn" />
