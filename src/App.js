@@ -167,7 +167,7 @@ function MathSection() {
       <div>
           <h2>Mathematical Operations</h2>
           <form onSubmit={handleSubmit}>
-              <label style={{ fontSize: '1.2em', marginRight: '1em' }}>
+              <label style={{ fontSize: '1em', marginRight: '1em' }}>
                   Operation:
                   <select value={operation} onChange={(e) => setOperation(e.target.value)} style={{ fontSize: '1.2em' }}>
                       <option value="random">Random Number</option>
