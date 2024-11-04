@@ -21,8 +21,7 @@ function DigitalClock() {
 
     return (
         <div style={{ fontSize: '2em', color: 'white', margin: '20px' }}>
-            <div>{formattedDateUTC}</div>
-            <div>{formattedDateUTC5}</div>
+            <div>{formattedDateUTC5} - {formattedDateUTC}</div>
         </div>
     );
 }
