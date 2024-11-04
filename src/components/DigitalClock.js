@@ -27,7 +27,7 @@ function DigitalClock() {
                     svg 
                     style={{ width: '2em', height: '2em', marginRight: '10px' }} // Added margin for spacing
                 />
-                {formattedDateUTC5} - 
+                {formattedDateUTC5} 
                 <ReactCountryFlag 
                     countryCode="GB" 
                     svg 
