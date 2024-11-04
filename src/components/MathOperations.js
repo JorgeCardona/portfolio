@@ -19,6 +19,11 @@ export default class MathOperations {
         return a / b;
     };
 
+    // New method for percentage calculation
+    static percentage(a, b) {
+        return (a * b) / 100;
+    }
+
     // New methods for square root, cube root, power, and n-th root
     static squareRoot(a) {
         if (a < 0) {
