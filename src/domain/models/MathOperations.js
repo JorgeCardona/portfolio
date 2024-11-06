@@ -1,5 +1,5 @@
 // Main class for mathematical operations
-export default class MathOperations {
+class MathOperations {
     static add(a, b) {
         return a + b;
     };
@@ -107,3 +107,6 @@ export function formatNumber(num) {
 
     return formattedInteger + decimalPart;
 };
+
+// Export the MathOperations class as default
+export default MathOperations;

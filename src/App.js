@@ -1,13 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useState, useEffect, useCallback } from 'react';
+import React from 'react';
 import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './components/Home';
 import SQL from './components/SQL';
 import SPARK from './components/SPARK';
 import MongoDB from './components/MongoDB';
-import MathOperations, { square, cube, power, factorial, logarithm } from './components/MathOperations';
-import DigitalClock from './components/DigitalClock'; // Asegúrate de que la ruta sea correcta
+import DigitalClock from './components/DigitalClock';
+import MathServices from './components/MathServices';
+import ChatGPT from './components/ChatGPT';
+import HuggingFaceChat from './components/HuggingFaceChat';
 
 function App() {
   return (
@@ -56,6 +58,12 @@ function App() {
             <li>
               <Link className="nav-link" to="/math">Mathematical Operations</Link>
             </li>
+            <li>
+              <Link className="nav-link" to="/gpt">Chat GPT</Link>
+            </li>
+            <li>
+              <Link className="nav-link" to="/huggingface">Hugging Face</Link> {/* Add this line */}
+            </li>
           </ul>
         </nav>
 
@@ -65,161 +73,13 @@ function App() {
             <Route path="/sql" element={<SQL />} />
             <Route path="/spark" element={<SPARK />} />
             <Route path="/mongodb" element={<MongoDB />} />
-            <Route path="/math" element={<MathSection />} />
+            <Route path="/math" element={<MathServices />} />
+            <Route path="/gpt" element={<ChatGPT />} />
+            <Route path="/huggingface" element={<HuggingFaceChat />} />
           </Routes>
         </main>
       </div>
     </Router>
-  );
-}
-
-function MathSection() {
-  const [a, setA] = useState('');
-  const [b, setB] = useState('');
-  const [operation, setOperation] = useState('random');
-  const [result, setResult] = useState(null);
-
-  const calculateResult = useCallback(() => {
-      let res;
-      const numA = a === '' ? 0 : Number(a);
-      const numB = b === '' ? 0 : Number(b);
-
-      switch (operation) {
-        case 'random':
-          res = MathOperations.randomInteger(numA);
-          break;
-        case 'add':
-              res = MathOperations.add(numA, numB);
-              break;
-          case 'subtract':
-              res = MathOperations.subtract(numA, numB);
-              break;
-          case 'multiply':
-              res = MathOperations.multiply(numA, numB);
-              break;
-          case 'divide':
-              res = numB !== 0 ? MathOperations.divide(numA, numB) : 'undefined';
-              break;
-          case 'percentage':
-              res = MathOperations.percentage(numA, numB);
-              break;
-          case 'square':
-              res = square(numA);
-              break;
-          case 'cube':
-              res = cube(numA);
-              break;
-          case 'power':
-              res = power(numA, numB);
-              break;
-          case 'logNatural':
-              res = logarithm(numA, 'natural');
-              break;
-          case 'logBase2':
-              res = logarithm(numA, 'base2');
-              break;
-          case 'logBase10':
-              res = logarithm(numA, 'base10');
-              break;
-          case 'factorial':
-              res = numA >= 0 ? factorial(numA) : 'undefined';
-              break;
-          case 'squareRoot':
-              res = MathOperations.squareRoot(numA);
-              break;
-          case 'cubeRoot':
-              res = MathOperations.cubeRoot(numA);
-              break;
-          case 'nRoot':
-              res = numA > 0 ? MathOperations.nRoot(numB, numA) : 'undefined';
-              break;
-          default:
-              res = 'Invalid operation';
-      }
-
-      if (typeof res === 'number') {
-          setResult(res.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 5 }));
-      } else {
-          setResult(res);
-      }
-  }, [a, b, operation]);
-
-  useEffect(() => {
-      calculateResult();
-  }, [calculateResult]);
-
-  const handleSubmit = (e) => {
-      e.preventDefault();
-      calculateResult();
-  };
-
-  const singleValueOperations = [
-      'random',
-      'square',
-      'cube',
-      'factorial',
-      'squareRoot',
-      'cubeRoot',
-      'logNatural',
-      'logBase2',
-      'logBase10',
-  ];
-
-  return (
-      <div>
-          <h2>Mathematical Operations</h2>
-          <form onSubmit={handleSubmit}>
-              <label style={{ fontSize: '1em', marginRight: '1em' }}>
-                  Operation:
-                  <select value={operation} onChange={(e) => setOperation(e.target.value)} style={{ fontSize: '1.2em' }}>
-                      <option value="random">Random Number</option>
-                      <option value="add">Addition</option>
-                      <option value="subtract">Subtraction</option>
-                      <option value="multiply">Multiplication</option>
-                      <option value="divide">Division</option>
-                      <option value="percentage">Percentage</option>
-                      <option value="square">Square</option>
-                      <option value="cube">Cube</option>
-                      <option value="power">Power</option>
-                      <option value="logNatural">Natural Logarithm (base e)</option>
-                      <option value="logBase2">Logarithm Base 2</option>
-                      <option value="logBase10">Logarithm Base 10</option>
-                      <option value="factorial">Factorial</option>
-                      <option value="squareRoot">Square Root</option>
-                      <option value="cubeRoot">Cube Root</option>
-                      <option value="nRoot">n-th Root</option>
-                  </select>
-              </label>
-              <label style={{ fontSize: '1.2em', marginRight: '1em' }}>
-                  Base Value:
-                  <input
-                      type="number"
-                      value={a}
-                      onChange={(e) => setA(e.target.value)}
-                      style={{ fontSize: '1.2em' }}
-                  />
-              </label>
-              {!singleValueOperations.includes(operation) && (
-                  <label style={{ fontSize: '1.2em', marginRight: '1em' }}>
-                      Final Value:
-                      <input
-                          type="number"
-                          value={b}
-                          onChange={(e) => setB(e.target.value)}
-                          style={{ fontSize: '1.2em' }}
-                      />
-                  </label>
-              )}
-              <button type="submit" style={{ fontSize: '1.2em' }}>Calculate</button>
-          </form>
-          {result !== null && (
-              <div>
-                  <p style={{ fontSize: '3em', color: 'blue', fontWeight: 'bold' }}>Result : 
-                      <span style={{ color: 'purple', fontSize: '3em' }}> {result}</span>
-                  </p>
-              </div>
-          )}
-      </div>
   );
 }
 
