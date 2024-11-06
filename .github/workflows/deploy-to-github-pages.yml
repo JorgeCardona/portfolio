@@ -39,8 +39,19 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Set environment variables from secrets
+        env:
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+          REACT_APP_OTHER_SECRET: ${{ secrets.REACT_APP_OTHER_SECRET }}
+        run: |
+          echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}" >> $GITHUB_ENV
+          echo "REACT_APP_OTHER_SECRET=${{ secrets.REACT_APP_OTHER_SECRET }}" >> $GITHUB_ENV
+
       - name: Build the application
         run: npm run build
+        env:
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+          REACT_APP_OTHER_SECRET: ${{ secrets.REACT_APP_OTHER_SECRET }}
 
       - name: Set Git user information
         run: |
