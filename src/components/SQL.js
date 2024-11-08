@@ -25,12 +25,6 @@ const handleQuerySubmission = async (query, setQueryResults, setTableColumnsDeta
     return;
   }
 
-  // Check if the query starts with SELECT (case-insensitive)
-  if (!/^\s*(SELECT|WITH)/i.test(query)) {
-    setErrorMessage("Only SELECT or WITH statements are allowed. Please modify your query.");
-    return;
-  }
-
   try {
     const response = await fetch(QUERY_URL, {
       method: 'POST',
@@ -42,7 +36,12 @@ const handleQuerySubmission = async (query, setQueryResults, setTableColumnsDeta
 
     if (response.ok) {
       const data = await response.json();
-      if (Array.isArray(data.data) && data.data.length > 0) {
+
+      // Check if the 'error' field is present in the response data
+      if (data.error) {
+        setErrorMessage(data.error);  // Show the error message from the API
+        setQueryResults([]);  // Ensure no results are shown if there is an error
+      } else if (Array.isArray(data.data) && data.data.length > 0) {
         setQueryResults(data.data);
         if (data.table_columns_details) {
           setTableColumnsDetails(data.table_columns_details);
@@ -106,18 +105,19 @@ const renderQueryResults = (queryResults, tableColumnsDetails, errorMessage) => 
     <table border="1" style={{ width: '100%', textAlign: 'left', marginTop: '20px' }}>
       <thead>
         <tr>
-          {Object.keys(tableColumnsDetails).map((tableName, index) => (
-            tableColumnsDetails[tableName].map((column, colIndex) => (
-              <th key={`${index}-${colIndex}`}>{column[1]}</th>
+          {/* Render table headers dynamically from tableColumnsDetails */}
+          {Object.entries(tableColumnsDetails).map(([tableName, columns]) =>
+            columns.map((column, index) => (
+              <th key={`${tableName}-${index}`}>{column[1]}</th>
             ))
-          ))}
+          )}
         </tr>
       </thead>
       <tbody>
-        {queryResults.map((row, index) => (
-          <tr key={index}>
-            {row.map((value, idx) => (
-              <td key={idx}>{value}</td>
+        {queryResults.map((row, rowIndex) => (
+          <tr key={rowIndex}>
+            {row.map((value, cellIndex) => (
+              <td key={cellIndex}>{value}</td>
             ))}
           </tr>
         ))}
