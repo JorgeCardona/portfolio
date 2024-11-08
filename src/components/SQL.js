@@ -1,31 +1,38 @@
 import React, { useState, useEffect } from 'react';
+import { QUERY_URL, TABLES_URL } from '../config';
 
 // Fetch tables data from the server
-const fetchTablesData = async (setTables, setLoading) => {
+const fetchTablesData = async (setTables, setLoading, setErrorMessage) => {
   try {
-    const response = await fetch('https://portfolio-api-server.onrender.com/tables');
+    const response = await fetch(TABLES_URL);
     if (response.ok) {
       const data = await response.json();
       setTables(data);
     } else {
-      console.error('Error fetching tables');
+      setErrorMessage('Error fetching tables');
     }
   } catch (error) {
-    console.error('Error fetching tables:', error);
+    setErrorMessage('Error fetching tables: ' + error.message);
   } finally {
     setLoading(false);
   }
 };
 
 // Submit the SQL query and fetch the results
-const handleQuerySubmission = async (query, setQueryResults, setTableColumnsDetails) => {
+const handleQuerySubmission = async (query, setQueryResults, setTableColumnsDetails, setErrorMessage) => {
   if (!query.trim()) {
-    console.error("Query is empty!");
+    setErrorMessage("Query is empty!");
+    return;
+  }
+
+  // Check if the query starts with SELECT (case-insensitive)
+  if (!/^\s*(SELECT|WITH)/i.test(query)) {
+    setErrorMessage("Only SELECT or WITH statements are allowed. Please modify your query.");
     return;
   }
 
   try {
-    const response = await fetch('https://portfolio-api-server.onrender.com/query', {
+    const response = await fetch(QUERY_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -40,15 +47,16 @@ const handleQuerySubmission = async (query, setQueryResults, setTableColumnsDeta
         if (data.table_columns_details) {
           setTableColumnsDetails(data.table_columns_details);
         }
+        setErrorMessage(''); // Clear any previous error messages
       } else {
         setQueryResults([]);
-        console.log("No results returned");
+        setErrorMessage("No results returned");
       }
     } else {
-      console.error('Error executing query');
+      setErrorMessage('Error executing query');
     }
   } catch (error) {
-    console.error('Error executing query:', error);
+    setErrorMessage('Error executing query: ' + error.message);
   }
 };
 
@@ -83,8 +91,14 @@ const renderTables = (tables) => {
 };
 
 // Render the query results in a table
-const renderQueryResults = (queryResults, tableColumnsDetails) => {
-  if (queryResults.length === 0) {
+const renderQueryResults = (queryResults, tableColumnsDetails, errorMessage) => {
+  // Display error message if it exists
+  if (errorMessage) {
+    return <p style={{ color: 'red' }}>{errorMessage}</p>;
+  }
+
+  // Check if queryResults is an empty array, or not a valid array
+  if (!Array.isArray(queryResults) || queryResults.length === 0) {
     return <p>No results to display</p>;
   }
 
@@ -113,18 +127,19 @@ const renderQueryResults = (queryResults, tableColumnsDetails) => {
 };
 
 function SQL() {
-  const [tables, setTables] = useState([]); 
-  const [loading, setLoading] = useState(true); 
-  const [query, setQuery] = useState(''); 
-  const [queryResults, setQueryResults] = useState([]); 
-  const [tableColumnsDetails, setTableColumnsDetails] = useState({}); 
+  const [tables, setTables] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [query, setQuery] = useState('');
+  const [queryResults, setQueryResults] = useState([]);
+  const [tableColumnsDetails, setTableColumnsDetails] = useState({});
+  const [errorMessage, setErrorMessage] = useState(''); // State for error message
 
   useEffect(() => {
-    fetchTablesData(setTables, setLoading);
+    fetchTablesData(setTables, setLoading, setErrorMessage);
   }, []);
 
   const handleQuerySubmit = () => {
-    handleQuerySubmission(query, setQueryResults, setTableColumnsDetails);
+    handleQuerySubmission(query, setQueryResults, setTableColumnsDetails, setErrorMessage);
   };
 
   if (loading) {
@@ -150,11 +165,11 @@ function SQL() {
             width: '100%',
             padding: '10px',
             fontSize: '16px',
-            backgroundColor: '#4CAF50', 
-            color: 'white', 
-            border: 'none', 
-            cursor: 'pointer', 
-            borderRadius: '5px', 
+            backgroundColor: '#4CAF50',
+            color: 'white',
+            border: 'none',
+            cursor: 'pointer',
+            borderRadius: '5px',
             marginTop: '10px',
           }}
         >
@@ -162,7 +177,7 @@ function SQL() {
         </button>
       </div>
 
-      <div>{renderQueryResults(queryResults, tableColumnsDetails)}</div>
+      <div>{renderQueryResults(queryResults, tableColumnsDetails, errorMessage)}</div>
     </div>
   );
 }
