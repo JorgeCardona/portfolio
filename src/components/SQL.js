@@ -1,28 +1,168 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+// Fetch tables data from the server
+const fetchTablesData = async (setTables, setLoading) => {
+  try {
+    const response = await fetch('https://portfolio-api-server.onrender.com/tables');
+    if (response.ok) {
+      const data = await response.json();
+      setTables(data);
+    } else {
+      console.error('Error fetching tables');
+    }
+  } catch (error) {
+    console.error('Error fetching tables:', error);
+  } finally {
+    setLoading(false);
+  }
+};
+
+// Submit the SQL query and fetch the results
+const handleQuerySubmission = async (query, setQueryResults, setTableColumnsDetails) => {
+  if (!query.trim()) {
+    console.error("Query is empty!");
+    return;
+  }
+
+  try {
+    const response = await fetch('https://portfolio-api-server.onrender.com/query', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ query }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      if (Array.isArray(data.data) && data.data.length > 0) {
+        setQueryResults(data.data);
+        if (data.table_columns_details) {
+          setTableColumnsDetails(data.table_columns_details);
+        }
+      } else {
+        setQueryResults([]);
+        console.log("No results returned");
+      }
+    } else {
+      console.error('Error executing query');
+    }
+  } catch (error) {
+    console.error('Error executing query:', error);
+  }
+};
+
+// Render the tables and columns dynamically
+const renderTables = (tables) => {
+  if (Object.keys(tables).length === 0) {
+    return <p>No tables available</p>;
+  }
+
+  return (
+    <table border="1" style={{ width: '100%', textAlign: 'left', marginTop: '20px' }}>
+      <thead>
+        <tr>
+          <th>Table Name</th>
+          <th>Columns</th>
+        </tr>
+      </thead>
+      <tbody>
+        {Object.entries(tables).map(([tableName, columns], index) => (
+          <tr key={index}>
+            <td>{tableName}</td>
+            <td>
+              {columns.map((col, idx) => (
+                <span key={idx}>{col.column_name}{idx < columns.length - 1 ? ', ' : ''}</span>
+              ))}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+
+// Render the query results in a table
+const renderQueryResults = (queryResults, tableColumnsDetails) => {
+  if (queryResults.length === 0) {
+    return <p>No results to display</p>;
+  }
+
+  return (
+    <table border="1" style={{ width: '100%', textAlign: 'left', marginTop: '20px' }}>
+      <thead>
+        <tr>
+          {Object.keys(tableColumnsDetails).map((tableName, index) => (
+            tableColumnsDetails[tableName].map((column, colIndex) => (
+              <th key={`${index}-${colIndex}`}>{column[1]}</th>
+            ))
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {queryResults.map((row, index) => (
+          <tr key={index}>
+            {row.map((value, idx) => (
+              <td key={idx}>{value}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
 
 function SQL() {
+  const [tables, setTables] = useState([]); 
+  const [loading, setLoading] = useState(true); 
+  const [query, setQuery] = useState(''); 
+  const [queryResults, setQueryResults] = useState([]); 
+  const [tableColumnsDetails, setTableColumnsDetails] = useState({}); 
+
+  useEffect(() => {
+    fetchTablesData(setTables, setLoading);
+  }, []);
+
+  const handleQuerySubmit = () => {
+    handleQuerySubmission(query, setQueryResults, setTableColumnsDetails);
+  };
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <div>
-      <h1>SQL Course</h1>
-      <p>Welcome to the SQL Course, your gateway to mastering the art of working with relational databases. In this course, you will explore the fundamentals of Structured Query Language (SQL), which is essential for data management and manipulation. From querying data to understanding complex relationships and optimizing database performance, this course is tailored to equip you with practical skills and insights. Whether you're starting your journey in data management or seeking to refine your existing knowledge, you’ll find comprehensive lessons and hands-on exercises to help you succeed.</p>
+      <h1>Tables in Current Database</h1>
+      <div>{renderTables(tables)}</div>
 
-      <h2>Course Outline</h2>
-      <ul>
-        <li><strong>Introduction to Databases:</strong> Understand the basics of databases and the relational model.</li>
-        <li><strong>SQL Syntax:</strong> Learn the fundamental syntax of SQL and how to write basic queries.</li>
-        <li><strong>Data Retrieval:</strong> Master techniques for selecting and filtering data using SELECT statements.</li>
-        <li><strong>Data Manipulation:</strong> Discover how to insert, update, and delete records in a database.</li>
-        <li><strong>Joins and Relationships:</strong> Explore how to join tables and understand relationships between them.</li>
-        <li><strong>Aggregating Data:</strong> Learn how to use aggregate functions and group data for analysis.</li>
-        <li><strong>Indexing and Optimization:</strong> Understand indexing strategies and how to optimize query performance.</li>
-        <li><strong>Transactions and Concurrency:</strong> Discover the concepts of transactions and how to manage data integrity.</li>
-      </ul>
+      <h1>Enter Your SQL Query</h1>
+      <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', width: '100%' }}>
+        <textarea
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Enter your SQL query"
+          style={{ width: '100%', minHeight: '100px', resize: 'vertical', marginBottom: '10px', fontSize: '16px' }}
+        />
+        <button
+          onClick={handleQuerySubmit}
+          style={{
+            width: '100%',
+            padding: '10px',
+            fontSize: '16px',
+            backgroundColor: '#4CAF50', 
+            color: 'white', 
+            border: 'none', 
+            cursor: 'pointer', 
+            borderRadius: '5px', 
+            marginTop: '10px',
+          }}
+        >
+          Execute Query
+        </button>
+      </div>
 
-      <h2>Prerequisites</h2>
-      <p>No prior knowledge of SQL is required, but familiarity with basic programming concepts will be helpful.</p>
-
-      <h2>Course Goals</h2>
-      <p>By the end of this course, you will be able to confidently write SQL queries, manage databases effectively, and apply best practices for data manipulation and performance optimization.</p>
+      <div>{renderQueryResults(queryResults, tableColumnsDetails)}</div>
     </div>
   );
 }

@@ -47,7 +47,7 @@ function App() {
               <Link className="nav-link" to="/">Home</Link>
             </li>
             <li>
-              <Link className="nav-link" to="/sql">SQL Tutorial</Link>
+              <Link className="nav-link" to="/sql">SQL Practice</Link>
             </li>
             <li>
               <Link className="nav-link" to="/spark">SPARK Tutorial</Link>
