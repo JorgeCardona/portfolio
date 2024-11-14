@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { GENERATE_PASSWORD_URL } from '../config';
+import './styles.css'; // Asegúrate de que este archivo esté importado en tu proyecto
 
 const PasswordGenerator = () => {
   const [baseString, setBaseString] = useState('');
@@ -8,9 +9,9 @@ const PasswordGenerator = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [copyMessage, setCopyMessage] = useState('');
 
   const handleFocus = (field) => {
-    // When the field is focused, clear the previous input value.
     if (field === 'baseString' && !baseString) {
       setBaseString('');
     }
@@ -20,16 +21,15 @@ const PasswordGenerator = () => {
   };
 
   const generatePassword = async () => {
-    // Validate inputs
     if (!baseString || !keyString || passwordLength < 10 || passwordLength > 100) {
       setError('All fields are required, and Password Length must be between 10 and 100');
       return;
     }
 
-    setError(''); // Clear any previous error
+    setError('');
     setLoading(true);
+    setCopyMessage('');
 
-    // Prepare the data to send
     const requestData = {
       base_string: baseString,
       key_string: keyString,
@@ -58,19 +58,19 @@ const PasswordGenerator = () => {
     setLoading(false);
   };
 
-  // Function to copy the password to the clipboard
   const copyToClipboard = () => {
     navigator.clipboard.writeText(password).then(() => {
-      alert('Password copied to clipboard!');
+      setCopyMessage('Password copied to clipboard!');
+      setTimeout(() => setCopyMessage(''), 2000); // Limpiar el mensaje después de 2 segundos
     });
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', width: '100%', padding: '20px' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', width: '100%', padding: '20px', overflowX: 'hidden' }}>
       <div style={{ width: '80%', maxWidth: '100%', marginTop: '20px' }}>
         <h2>Password Generator</h2>
 
-        {error && <p style={{ color: 'red' }}>{error}</p>}  {/* Display error if any */}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
 
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: '2em', marginBottom: '2em' }}>
           <div style={{ flex: 2 }}>
@@ -84,12 +84,11 @@ const PasswordGenerator = () => {
               required
               minLength="1"
               style={{
-                marginLeft: '0.5em',
-                width: '100%',
+                width: 'calc(100% - 20px)',
                 fontSize: '1.2em',
                 padding: '10px',
                 borderRadius: '5px',
-                marginBottom: '1em',  // Added margin for spacing between input boxes
+                marginBottom: '1em',
               }}
             />
           </div>
@@ -105,12 +104,11 @@ const PasswordGenerator = () => {
               required
               minLength="1"
               style={{
-                marginLeft: '0.5em',
-                width: '100%',
+                width: 'calc(100% - 20px)',
                 fontSize: '1.2em',
                 padding: '10px',
                 borderRadius: '5px',
-                marginBottom: '1em',  // Added margin for spacing between input boxes
+                marginBottom: '1em',
               }}
             />
           </div>
@@ -122,16 +120,15 @@ const PasswordGenerator = () => {
               id="passwordLength"
               value={passwordLength}
               onChange={(e) => setPasswordLength(e.target.value)}
-              min="20"
+              min="10"
               max="100"
               required
               style={{
-                marginLeft: '0.5em',
-                width: '100%',
+                width: 'calc(100% - 20px)',
                 fontSize: '1.2em',
                 padding: '10px',
                 borderRadius: '5px',
-                marginBottom: '1em',  // Added margin for spacing between input boxes
+                marginBottom: '1em',
               }}
             />
           </div>
@@ -155,12 +152,12 @@ const PasswordGenerator = () => {
                 backgroundColor: '#f0f0f0',
                 border: '1px solid #ccc',
                 padding: '10px',
-                color: 'red',  // Red color for the password
+                color: 'red',
                 fontSize: '1.1em',
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
                 textOverflow: 'ellipsis',
-                textAlign: 'center',  // Center the text inside the box
+                textAlign: 'center',
               }}
             />
             <button onClick={copyToClipboard} style={{
@@ -170,6 +167,8 @@ const PasswordGenerator = () => {
             </button>
           </div>
         )}
+
+        {copyMessage && <p style={{ color: 'green', marginTop: '10px' }}>{copyMessage}</p>}
       </div>
     </div>
   );
