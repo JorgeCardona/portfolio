@@ -4,7 +4,7 @@ import { GENERATE_PASSWORD_URL } from '../config';
 const PasswordGenerator = () => {
   const [baseString, setBaseString] = useState('');
   const [keyString, setKeyString] = useState('');
-  const [passwordLength, setPasswordLength] = useState(20);
+  const [passwordLength, setPasswordLength] = useState(10);
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -21,8 +21,8 @@ const PasswordGenerator = () => {
 
   const generatePassword = async () => {
     // Validate inputs
-    if (!baseString || !keyString || passwordLength < 20 || passwordLength > 100) {
-      setError('All fields are required, and Password Length must be between 20 and 100');
+    if (!baseString || !keyString || passwordLength < 10 || passwordLength > 100) {
+      setError('All fields are required, and Password Length must be between 10 and 100');
       return;
     }
 
