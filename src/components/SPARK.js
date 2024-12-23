@@ -5,7 +5,7 @@ function SPARK() {
 
   useEffect(() => {
     // Fetch the HTML file from the GitHub raw URL
-    fetch('https://raw.githubusercontent.com/JorgeCardona/dockerhub-datascience-mlops/refs/heads/main/Notebooks/Lake%20House/Delta%20Spark.html')
+    fetch('https://raw.githubusercontent.com/JorgeCardona/dockerhub-datascience-mlops/refs/heads/main/Notebooks/Lake%20House/Delta_Spark.html')
       .then(response => response.text()) // Convert the response to text
       .then(data => setHtmlContent(data)) // Store the HTML content in the state
       .catch(error => console.error("Error fetching HTML file: ", error));
