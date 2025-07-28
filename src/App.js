@@ -11,6 +11,7 @@ import MathServices from './components/MathServices';
 import ChatGPT from './components/ChatGPT';
 import HuggingFaceChat from './components/HuggingFaceChat';
 import PasswordGenerator from './components/PasswordGenerator';
+import GetMultimediaFile from './components/GetMultimediaFile';
 
 function App() {
   return (
@@ -44,30 +45,15 @@ function App() {
 
         <nav className="navbar">
           <ul className="nav-list">
-            <li>
-              <Link className="nav-link" to="/">Home</Link>
-            </li>
-            <li>
-              <Link className="nav-link" to="/sql">SQL Practice</Link>
-            </li>
-            <li>
-              <Link className="nav-link" to="/spark">SPARK Tutorial</Link>
-            </li>
-            <li>
-              <Link className="nav-link" to="/mongodb">MongoDB Tutorial</Link>
-            </li>
-            <li>
-              <Link className="nav-link" to="/math">Mathematical Operations</Link>
-            </li>
-            <li>
-              <Link className="nav-link" to="/gpt">Chat GPT</Link>
-            </li>
-            <li>
-              <Link className="nav-link" to="/huggingface">Hugging Face</Link>
-            </li>
-            <li>
-              <Link className="nav-link" to="/password-generator">Password Generator</Link>
-            </li>
+            <li><Link className="nav-link" to="/">Home</Link></li>
+            <li><Link className="nav-link" to="/sql">SQL Practice</Link></li>
+            <li><Link className="nav-link" to="/spark">SPARK Tutorial</Link></li>
+            <li><Link className="nav-link" to="/mongodb">MongoDB Tutorial</Link></li>
+            <li><Link className="nav-link" to="/math">Mathematical Operations</Link></li>
+            <li><Link className="nav-link" to="/gpt">Chat GPT</Link></li>
+            <li><Link className="nav-link" to="/huggingface">Hugging Face</Link></li>
+            <li><Link className="nav-link" to="/password-generator">Password Generator</Link></li>
+            <li><Link className="nav-link" to="/multimedia-download">Multimedia Downloader</Link></li>
           </ul>
         </nav>
 
@@ -80,7 +66,8 @@ function App() {
             <Route path="/math" element={<MathServices />} />
             <Route path="/gpt" element={<ChatGPT />} />
             <Route path="/huggingface" element={<HuggingFaceChat />} />
-            <Route path="/password-generator" element={<PasswordGenerator />} /> 
+            <Route path="/password-generator" element={<PasswordGenerator />} />
+            <Route path="/multimedia-download" element={<GetMultimediaFile />} />
           </Routes>
         </main>
       </div>
