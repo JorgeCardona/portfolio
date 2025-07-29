@@ -11,7 +11,6 @@ import MathServices from './components/MathServices';
 import ChatGPT from './components/ChatGPT';
 import HuggingFaceChat from './components/HuggingFaceChat';
 import PasswordGenerator from './components/PasswordGenerator';
-import GetMultimediaFile from './components/GetMultimediaFile';
 
 function App() {
   return (
