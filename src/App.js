@@ -53,7 +53,6 @@ function App() {
             <li><Link className="nav-link" to="/gpt">Chat GPT</Link></li>
             <li><Link className="nav-link" to="/huggingface">Hugging Face</Link></li>
             <li><Link className="nav-link" to="/password-generator">Password Generator</Link></li>
-            <li><Link className="nav-link" to="/multimedia-download">Multimedia Downloader</Link></li>
           </ul>
         </nav>
 
@@ -67,7 +66,6 @@ function App() {
             <Route path="/gpt" element={<ChatGPT />} />
             <Route path="/huggingface" element={<HuggingFaceChat />} />
             <Route path="/password-generator" element={<PasswordGenerator />} />
-            <Route path="/multimedia-download" element={<GetMultimediaFile />} />
           </Routes>
         </main>
       </div>
